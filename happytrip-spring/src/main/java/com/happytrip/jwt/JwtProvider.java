@@ -44,7 +44,7 @@ public class JwtProvider {
 				.setIssuedAt(new Date()) // 생성일 설정
 				.setExpiration(new Date(System.currentTimeMillis() + expireTime)); // 만료일 설정 (유효기간)
 
-/**		저장할 data의 key, value **/
+/**		저장할 data의 key, value 넣기 **/
 		claims.put("memberId", memberId);
 		String jwt = Jwts.builder()
 				.setHeaderParam("typ", "JWT").setClaims(claims) // Header: 토큰 타입, 해쉬 알고리즘 정보
@@ -52,6 +52,7 @@ public class JwtProvider {
 				.compact(); // 직렬화 처리.
 		return jwt;
 	}
+
 	//	Signature 설정에 들어갈 key 생성
 	private byte[] generateKey() {
 		byte[] key = null;
@@ -67,7 +68,6 @@ public class JwtProvider {
 		}
 		return key;
 	}
-
 
 	/**	Token 확인 **/
 	public boolean validateToken(String token, UserDetails userDetails) {
