@@ -1,4 +1,4 @@
-package com.happytrip.jwt;
+package com.happytrip.domain.auth.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;

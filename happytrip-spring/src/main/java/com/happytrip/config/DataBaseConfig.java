@@ -2,6 +2,7 @@ package com.happytrip.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -12,13 +13,10 @@ import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:/application.properties")
-public class DataBaseConfiguration {
+@RequiredArgsConstructor
+public class DataBaseConfig {
 
-    final ApplicationContext applicationContext;
-
-    public DataBaseConfiguration(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
+    private final ApplicationContext applicationContext;
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.hikari")

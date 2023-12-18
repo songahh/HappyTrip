@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.happytrip.domain.member.entity.MemberMapper">
+<mapper namespace="com.happytrip.domain.user.entity.MemberMapper">
 
-	<resultMap type="MemberDto" id="member">
+	<resultMap type="MemberDto" id="user">
 		<result column="user_id" property="userId"/>
 		<result column="user_name" property="userName"/>
 		<result column="user_pass" property="userPwd"/>
@@ -15,13 +15,13 @@
 	</resultMap>
 
 
-	<select id="login" parameterType="map" resultMap="member">
+	<select id="login" parameterType="map" resultMap="user">
 		select user_id, user_name, token
 		from members
 		where user_id = #{userId} and user_pass = #{userPwd}
 	</select>
 	
-	<select id="userInfo" parameterType="string" resultMap="member">
+	<select id="userInfo" parameterType="string" resultMap="user">
 		select user_name, user_id, email_id, email_domain, join_date
 		from members
 		where user_id = #{userId}
