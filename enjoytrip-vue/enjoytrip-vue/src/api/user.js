@@ -18,7 +18,8 @@ async function tokenRegeneration(user, success, fail) {
 
 async function registerUser(user, success, fail) {
   // await local.post(`/user/register`, user).then(success).catch(fail);
-  await local.get(`/oauth2/authorization/google`).then(success).catch(fail);
+  //await local.get(`/oauth2/authorization/google`).then(success).catch(fail);
+  await local.get(`/auth/register/google`).then(success).catch(fail);
 }
 
 async function modifyUser(user, success, fail) {

@@ -1,10 +1,13 @@
 package com.happytrip.domain.auth.controller;
 
+import com.happytrip.domain.auth.dto.AuthRequestDto;
 import com.happytrip.domain.auth.dto.AuthResponseDto;
 import com.happytrip.domain.auth.exception.AuthException;
+import com.happytrip.domain.auth.service.AuthService;
 import com.happytrip.domain.user.exception.UserException;
 import com.happytrip.domain.user.service.UserService;
 import com.happytrip.domain.auth.utils.JwtProvider;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -22,6 +26,7 @@ import java.util.Map;
 @Slf4j
 public class AuthController {
 	private final JwtProvider jp;
+	private final AuthService as;
 
 	private final String success = "SUCCESS";
 
@@ -30,8 +35,14 @@ public class AuthController {
 		return new ResponseEntity<>(e.getMessage(), e.getStatus());
 	}
 
-	@GetMapping("/google")
-	public ResponseEntity<AuthResponseDto> google(Authentication authentication){
+	@GetMapping("/register/google")
+	public void redirectToGoogle(HttpServletResponse response) throws IOException {
+		log.info("************************redirect to Google");
+		response.sendRedirect("/oauth2/authorization/google");
+	}
+
+	@GetMapping("/register/success")
+	public ResponseEntity<AuthResponseDto> success(Authentication authentication){
 		OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
 		OAuth2User oAuth2User = oAuth2AuthenticationToken.getPrincipal();
 
@@ -43,6 +54,8 @@ public class AuthController {
 
 		String accessToken = jp.createAccessToken(email);
 		String refreshToken = jp.createRefreshToken(email);
+
+		as.updateRefreshToken(AuthRequestDto.builder().email(email).refreshToken(refreshToken).build());
 		AuthResponseDto authResponseDto = AuthResponseDto.builder()
 				.name(name).img(picture).email(email)
 				.accessToken(accessToken)

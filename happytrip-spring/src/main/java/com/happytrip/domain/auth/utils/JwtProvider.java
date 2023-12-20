@@ -2,17 +2,12 @@ package com.happytrip.domain.auth.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
-import java.util.Map;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-//import com.ssafy.vue.exception.UnAuthorizedException;
-
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
