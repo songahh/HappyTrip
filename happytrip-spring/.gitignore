@@ -37,5 +37,4 @@ out/
 .vscode/
 
 ### spring project ###
-application.properties
-application-oauth.properties
+*.properties
