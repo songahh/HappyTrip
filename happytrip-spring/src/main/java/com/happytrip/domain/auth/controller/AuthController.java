@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
@@ -35,17 +36,16 @@ public class AuthController {
 		return new ResponseEntity<>(e.getMessage(), e.getStatus());
 	}
 
-	@GetMapping("/register/google")
-	public void redirectToGoogle(HttpServletResponse response) throws IOException {
-		log.info("************************redirect to Google");
-		response.sendRedirect("/oauth2/authorization/google");
-	}
+//	@GetMapping("/register/success")
+//	public void redirectToFront(@AuthenticationPrincipal OAuth2User oAuth2User, HttpServletResponse response) throws IOException {
+//		response.sendRedirect("http://localhost:5173/user/login");
+//	}
 
 	@GetMapping("/register/success")
-	public ResponseEntity<AuthResponseDto> success(Authentication authentication){
-		OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
-		OAuth2User oAuth2User = oAuth2AuthenticationToken.getPrincipal();
-
+	public ResponseEntity<AuthResponseDto> login(@AuthenticationPrincipal OAuth2User oAuth2User){
+		log.info("*******************login");
+//		OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
+//		OAuth2User oAuth2User = oAuth2AuthenticationToken.getPrincipal();
 		Map<String, Object> attributes = oAuth2User.getAttributes();
 
 		String name = (String) attributes.get("name");

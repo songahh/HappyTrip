@@ -4,13 +4,14 @@ import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
 import { useMenuStore } from "@/stores/menu";
+import { userLogin } from "@/api/user.js";
 
 const router = useRouter();
 
 const memberStore = useMemberStore();
 
 const { isLogin } = storeToRefs(memberStore);
-const { userLogin, getUserInfo } = memberStore;
+const { getUserInfo } = memberStore;
 const { changeMenuState } = useMenuStore();
 
 const loginUser = ref({
@@ -19,7 +20,16 @@ const loginUser = ref({
 });
 
 const login = async () => {
-  await userLogin(loginUser.value);
+  // await userLogin(loginUser.value);
+  userLogin()
+    .then((response) => {
+      // Handle the response as needed
+      console.log("Login successful", response);
+    })
+    .catch((error) => {
+      // Handle registration failure
+      console.error("User registration failed", error);
+    });
   let token = sessionStorage.getItem("accessToken");
   if (isLogin) {
     getUserInfo(token);

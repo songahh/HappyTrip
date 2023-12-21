@@ -2,6 +2,11 @@ import { localAxios } from "@/utils/http-commons";
 
 const local = localAxios();
 
+async function userLogin(success, fail){
+  await local.get(`/auth/login`).then(success).catch(fail);
+}
+
+
 async function userConfirm(param, success, fail) {
   await local.post(`/user/login`, param).then(success).catch(fail);
 }
@@ -34,4 +39,4 @@ async function logout(userid, success, fail) {
   await local.get(`/user/logout/${userid}`).then(success).catch(fail);
 }
 
-export { userConfirm, modifyUser, deleteUser, findById, tokenRegeneration, registerUser, logout };
+export { userLogin, userConfirm, modifyUser, deleteUser, findById, tokenRegeneration, registerUser, logout };

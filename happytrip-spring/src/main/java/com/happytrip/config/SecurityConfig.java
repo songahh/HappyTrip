@@ -6,14 +6,12 @@ import com.happytrip.domain.auth.utils.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -31,11 +29,13 @@ public class SecurityConfig {
     // Spring Security 6.0 버전부터는 WebSecurityConfigurerAdapter 제거됨
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.oauth2Login(oauth2 -> oauth2
+        http.formLogin(login -> login.disable())
+             .oauth2Login(oauth2 -> oauth2
                 .userInfoEndpoint(userInfo -> userInfo
-                        .userService(customOAuth2UserService)))
-                .authorizeHttpRequests((auth)->auth
-                .requestMatchers("/auth/").permitAll()
+                        .userService(customOAuth2UserService))
+                        .defaultSuccessUrl("/auth/register/success", true))
+             .authorizeHttpRequests((auth)->auth
+                        .requestMatchers("/auth/register/success", "/auth/login", "/oauth2/authorization/google").permitAll()
                         .anyRequest().authenticated());
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         http.cors((cors)->corsConfigurationSource());
