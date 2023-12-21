@@ -11,7 +11,7 @@ const emailDomain = ref("");
 
 const router = useRouter();
 
-function doRegist() {
+function doRegist(event) {
   // Gather input values
   const userData = {
     userName: name.value,
@@ -22,19 +22,20 @@ function doRegist() {
   };
 
   // Call registerUser function
-  // registerUser(userData)
-  //   .then((response) => {
-  //     // Handle the response as needed
-  //     console.log("User registration successful", response);
-  //     // Optionally, you can reset the form after successful registration
-  //     doReset();
-  //     router.push({ name: "user-login" });
-  //   })
-  //   .catch((error) => {
-  //     // Handle registration failure
-  //     console.error("User registration failed", error);
-  //   });
-  window.location.href = "http://localhost/happytrip/auth/google";
+  registerUser(userData)
+    .then((response) => {
+      // Handle the response as needed
+      console.log("User registration successful", response);
+      // Optionally, you can reset the form after successful registration
+      doReset();
+      router.push({ name: "user-login" });
+    })
+    .catch((error) => {
+      // Handle registration failure
+      console.error("User registration failed", error);
+    });
+  // event.preventDefault();
+  //window.location.href = "http://localhost/happytrip/oauth2/authorization/google";
 }
 
 function doReset() {
